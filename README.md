@@ -10,7 +10,7 @@ Contains default game configuration and parameters.
 ### InteractiveObject
 Core interaction system providing:
 - Object selection and detection
-- Object movement (transform-based)
+- Object movement (transform-based) - click and hold briefly to move objects
 - Dynamic object spawning
 - Component-based extensible behaviors
 
