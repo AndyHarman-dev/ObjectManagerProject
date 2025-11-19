@@ -2,25 +2,6 @@
 
 An Unreal Engine project for managing interactive objects with selection, movement, spawning, and UI utilities.
 
-## Modules
-
-### GameSettings
-Contains default game configuration and parameters.
-
-### InteractiveObject
-Core interaction system providing:
-- Object selection and detection
-- Object movement (transform-based) - click and hold briefly to move objects
-- Dynamic object spawning
-- Component-based extensible behaviors
-
-### ObjectManagerProject
-Main business logic module that orchestrates game systems and coordinates between modules.
-
-### UIUtilities
-UI components and tools including:
-- Unreal Color Picker widget
-
 ## Getting Started
 
 ### Prerequisites
@@ -32,6 +13,59 @@ UI components and tools including:
 2. Open project in Unreal Engine
 3. Compile modules
 4. Launch editor
+
+## Architecture Overview
+
+### Module: GameSettings
+
+**Purpose:** Manages persistent data storage through INI file serialization.
+
+#### Components
+
+- **`UObjectManagerSettings`**
+  - Service that provides direct methods for loading and saving data to .ini configuration files
+
+
+### Module: InteractiveObject
+
+**Purpose:** Implements the core interaction system for object manipulation within the scene.
+
+#### Features
+- Object selection and detection
+- Transform-based object movement (activated by click-and-hold gesture)
+- Runtime object spawning capabilities
+
+#### Components
+
+- **`UInteractiveObjectSelectionComponent`** - Manages the selection state and detection of interactive objects
+
+- **`UInteractiveObjectMovementComponent`** - Controls object movement with configurable interpolation speed settings
+
+- **`UInteractiveObjectSpawnSubsystem`** - Handles dynamic instantiation of interactive objects and broadcasts spawn-related events
+
+- **`AInteractiveSceneObject`** - Main interactive object actor that integrates the selection and movement components
+
+
+### Module: ObjectManagerProject
+
+**Purpose:** Contains the primary business logic layer that orchestrates game systems and coordinates inter-module communication.
+
+#### Components
+
+- **`AObjectManagementPlayerController`**
+  - Processes input and handles raycasting operations on click events
+  - Implements camera look-at functionality for enhanced user experience
+  - Coordinates object selection through component delegation
+
+
+### Module: UIUtilities
+
+**Purpose:** Provides reusable UI utility components and widgets.
+
+#### Components
+
+- **UMG Color Picker Wrapper**
+  - UMG-based wrapper implementation around Unreal Engine's native `SColorPicker` slate widget
 
 ## UI Overview
 
