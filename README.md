@@ -14,6 +14,10 @@ An Unreal Engine project for managing interactive objects with selection, moveme
 3. Compile modules
 4. Launch editor
 
+### Controls
+- Click on object once to select it, or choose it in the outliner.
+- Clikc and hold object to move it around.
+
 ## Architecture Overview
 The code is organized into four modules, each encapsulating distinct behaviors that can function independently rather than being embedded within a single module.
 
