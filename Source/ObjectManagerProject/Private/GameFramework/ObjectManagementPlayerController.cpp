@@ -89,7 +89,6 @@ void AObjectManagementPlayerController::TickLookingAtTargetLocation(float DeltaS
 		FVector PawnLocation = GetPawn()->GetActorLocation();
         
 		FVector Direction = TargetLookLocation - PawnLocation;
-		Direction.Z = 0;
         
 		if (Direction.SizeSquared() > 0.01f)
 		{
