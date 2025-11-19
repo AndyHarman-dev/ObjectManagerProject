@@ -27,6 +27,63 @@ void AObjectManagementPlayerController::LookAt(FVector Location) noexcept
 void AObjectManagementPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	TickLookingAtTargetLocation(DeltaSeconds);
+}
+
+AActor* AObjectManagementPlayerController::TraceForActorUnderCursor() noexcept
+{
+	const auto ObjectSettings = GetDefault<UInteractiveObjectSettings>();
+
+	FHitResult HitResult;
+	GetHitResultUnderCursor(ObjectSettings->InteractiveObjectDefaultCollision, false, HitResult);
+	return HitResult.GetActor();
+}
+
+FHitResult AObjectManagementPlayerController::GetHitResultAtViewPoint() noexcept
+{
+	if (!IsValid(ControlledPawn))
+	{
+		UE_LOG(LogObjectManagementPlayerController, Error, TEXT("%hs: Pawn is invalid!"), __FUNCTION__);
+		return {};
+	}
+
+	FVector Location = ControlledPawn->GetActorLocation();
+	Location.Z += ControlledPawn->BaseEyeHeight;
+
+	const auto ForwardVector = UKismetMathLibrary::GetForwardVector(PlayerCameraManager->GetCameraRotation());
+	const auto Destination = Location + ForwardVector * 1000;
+	
+	FHitResult OutHitResult;
+	GetWorld()->LineTraceSingleByChannel(OutHitResult, Location, Destination, ECC_Visibility);
+	return OutHitResult;
+}
+
+void AObjectManagementPlayerController::Reselect(AActor* InActor)
+{
+	DeselectCurrentActor();
+	Select(InActor);
+}
+
+void AObjectManagementPlayerController::DeselectCurrentActor()
+{
+	if (!IsValid(CurrentlySelectedActor))
+	{
+		return;
+	}
+
+	const auto SelectionComponent = CurrentlySelectedActor->FindComponentByClass<UInteractiveObjectSelectionComponent>();
+	if (!ensureMsgf(IsValid(SelectionComponent), TEXT("%hs: SelectionComponent is null for selectablea actor!"), __FUNCTION__))
+	{
+		return;
+	}
+
+	SelectionComponent->SetSelected(false);
+	OnObjectDeselected.Broadcast(CurrentlySelectedActor);
+	CurrentlySelectedActor = nullptr;
+}
+
+void AObjectManagementPlayerController::TickLookingAtTargetLocation(float DeltaSeconds)
+{
 	if (bIsRotatingToTarget && GetPawn())
 	{
 		FVector PawnLocation = GetPawn()->GetActorLocation();
@@ -60,60 +117,6 @@ void AObjectManagementPlayerController::Tick(float DeltaSeconds)
 			}
 		}
 	}
-}
-
-AActor* AObjectManagementPlayerController::TraceForActorUnderCursor() noexcept
-{
-	const auto ObjectSettings = GetDefault<UInteractiveObjectSettings>();
-
-	FHitResult HitResult;
-	GetHitResultUnderCursor(ObjectSettings->InteractiveObjectDefaultCollision, false, HitResult);
-	return HitResult.GetActor();
-}
-
-FHitResult AObjectManagementPlayerController::GetHitResultAtViewPoint() noexcept
-{
-	if (!IsValid(ControlledPawn))
-	{
-		UE_LOG(LogObjectManagementPlayerController, Error, TEXT("%hs: Pawn is invalid!"), __FUNCTION__);
-		return {};
-	}
-
-	FVector Location = ControlledPawn->GetActorLocation();
-	Location.Z += ControlledPawn->BaseEyeHeight;
-
-	const auto ForwardVector = UKismetMathLibrary::GetForwardVector(PlayerCameraManager->GetCameraRotation());
-	const auto Destination = Location + ForwardVector * 1000;
-
-	DrawDebugLine(GetWorld(), Location, Destination, FColor::Red, false, 5.f);
-
-	FHitResult OutHitResult;
-	GetWorld()->LineTraceSingleByChannel(OutHitResult, Location, Destination, ECC_Visibility);
-	return OutHitResult;
-}
-
-void AObjectManagementPlayerController::Reselect(AActor* InActor)
-{
-	DeselectCurrentActor();
-	Select(InActor);
-}
-
-void AObjectManagementPlayerController::DeselectCurrentActor()
-{
-	if (!IsValid(CurrentlySelectedActor))
-	{
-		return;
-	}
-
-	const auto SelectionComponent = CurrentlySelectedActor->FindComponentByClass<UInteractiveObjectSelectionComponent>();
-	if (!ensureMsgf(IsValid(SelectionComponent), TEXT("%hs: SelectionComponent is null for selectablea actor!"), __FUNCTION__))
-	{
-		return;
-	}
-
-	SelectionComponent->SetSelected(false);
-	OnObjectDeselected.Broadcast(CurrentlySelectedActor);
-	CurrentlySelectedActor = nullptr;
 }
 
 UEnhancedInputLocalPlayerSubsystem* AObjectManagementPlayerController::GetLocalPlayerSubsystem() const

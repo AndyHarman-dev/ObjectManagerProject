@@ -74,7 +74,8 @@ private:
 	bool bIsRotatingToTarget;
 	FVector TargetLookLocation;
 	float RotationTolerance = 1.0f; // Degrees of tolerance before we stop rotating
-	
+
+	void TickLookingAtTargetLocation(float DeltaSeconds);
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Object Management")
 	FInputMappingContextSettings InputSettings;
