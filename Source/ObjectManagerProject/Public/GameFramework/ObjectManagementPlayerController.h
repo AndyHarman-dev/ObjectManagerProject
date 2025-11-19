@@ -52,7 +52,7 @@ public:
 	AObjectManagementPlayerController();
 	
 	UFUNCTION(BlueprintCallable, Category="Object Management")
-	void LookAt(FVector Location) noexcept;
+	void LookAt(const FVector& Location) noexcept;
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category="Object Management")
@@ -62,7 +62,7 @@ public:
 	FHitResult GetHitResultAtViewPoint() noexcept;
 
 	UFUNCTION(BlueprintCallable, Category="Object Management")
-	void Reselect(AActor* InActor);
+	void Reselect(const AActor* InActor);
 
 	UFUNCTION(BlueprintCallable, Category="Object Management")
 	void DeselectCurrentActor();
@@ -102,8 +102,8 @@ private:
 	virtual void SetupInputComponent() override;
 
 public:
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnObjectSelected, AActor*, InObject);
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnObjectDeselected, AActor*, InObject);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnObjectSelected, const AActor*, InObject);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnObjectDeselected, const AActor*, InObject);
 
 	UPROPERTY(BlueprintAssignable)
 	FOnObjectSelected OnObjectSelected;
@@ -116,10 +116,10 @@ private:
 	APawn* ControlledPawn;
 
 	UPROPERTY()
-	AActor* CurrentlySelectedActor;
+	const AActor* CurrentlySelectedActor;
 	UPROPERTY()
 	UInteractiveObjectMovementComponent* MovementComponent;
 
-	void Select(AActor* InActor);
+	void Select(const AActor* InActor);
 
 };

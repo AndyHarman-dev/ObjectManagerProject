@@ -18,7 +18,7 @@ AObjectManagementPlayerController::AObjectManagementPlayerController()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AObjectManagementPlayerController::LookAt(FVector Location) noexcept
+void AObjectManagementPlayerController::LookAt(const FVector& Location) noexcept
 {
 	TargetLookLocation = Location;
 	bIsRotatingToTarget = true;
@@ -58,7 +58,7 @@ FHitResult AObjectManagementPlayerController::GetHitResultAtViewPoint() noexcept
 	return OutHitResult;
 }
 
-void AObjectManagementPlayerController::Reselect(AActor* InActor)
+void AObjectManagementPlayerController::Reselect(const AActor* InActor)
 {
 	DeselectCurrentActor();
 	Select(InActor);
@@ -277,7 +277,7 @@ void AObjectManagementPlayerController::SetupInputComponent()
 	SetupEnhancedInputBindings();
 }
 
-void AObjectManagementPlayerController::Select(AActor* InActor)
+void AObjectManagementPlayerController::Select(const AActor* InActor)
 {
 	if (!IsValid(InActor) || !IsValid(InActor->FindComponentByClass<UInteractiveObjectSelectionComponent>()) || InActor == CurrentlySelectedActor)
 	{
