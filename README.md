@@ -14,58 +14,26 @@ An Unreal Engine project for managing interactive objects with selection, moveme
 3. Compile modules
 4. Launch editor
 
-## Architecture Overview
+The code is organized into four modules, each encapsulating distinct behaviors that can function independently rather than being embedded within a single module.
 
-### Module: GameSettings
+## Module Hierarchy
 
-**Purpose:** Manages persistent data storage through INI file serialization.
+**ObjectManagerProjectModule** (Top-Level)
+This is the highest-level module, designed to manage objects and handle user interactions. In this solution, it is responsible for:
+- Processing input through the player controller
+- Performing traces to detect objects in the world
+- Managing object selection and detection logic
 
-#### Components
+**InteractiveObjectModule** (Implementation Layer)
+This lower-level implementation module contains three key classes that enable selection and movement functionality:
+- `AInteractiveSceneObject`
+- `UInteractiveObjectSelectionComponent`
+- `UInteractiveObjectMovementComponent`
 
-- **`UObjectManagerSettings`**
-  - Service that provides direct methods for loading and saving data to .ini configuration files
+The components in this module are highly reusable. Importantly, they don't require implementation specifically with `AInteractiveSceneObject`—this class simply provides a ready-to-use implementation for interactive objects. These components can be attached to any actor to enable selection and movement capabilities.
 
-
-### Module: InteractiveObject
-
-**Purpose:** Implements the core interaction system for object manipulation within the scene.
-
-#### Features
-- Object selection and detection
-- Transform-based object movement (activated by click-and-hold gesture)
-- Runtime object spawning capabilities
-
-#### Components
-
-- **`UInteractiveObjectSelectionComponent`** - Manages the selection state and detection of interactive objects
-
-- **`UInteractiveObjectMovementComponent`** - Controls object movement with configurable interpolation speed settings
-
-- **`UInteractiveObjectSpawnSubsystem`** - Handles dynamic instantiation of interactive objects and broadcasts spawn-related events
-
-- **`AInteractiveSceneObject`** - Main interactive object actor that integrates the selection and movement components
-
-
-### Module: ObjectManagerProject
-
-**Purpose:** Contains the primary business logic layer that orchestrates game systems and coordinates inter-module communication.
-
-#### Components
-
-- **`AObjectManagementPlayerController`**
-  - Processes input and handles raycasting operations on click events
-  - Implements camera look-at functionality for enhanced user experience
-  - Coordinates object selection through component delegation
-
-
-### Module: UIUtilities
-
-**Purpose:** Provides reusable UI utility components and widgets.
-
-#### Components
-
-- **UMG Color Picker Wrapper**
-  - UMG-based wrapper implementation around Unreal Engine's native `SColorPicker` slate widget
+**UIUtilitiesModule** (Utility Layer)
+This smaller module currently exists to store a UMG wrapper for `SColorPicker`, but it can be extended to house additional UI utilities in the future.
 
 ## UI Overview
 
