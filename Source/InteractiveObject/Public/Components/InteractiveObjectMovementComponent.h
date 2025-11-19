@@ -16,10 +16,10 @@ public:
 	UInteractiveObjectMovementComponent();
 
 	UFUNCTION(BlueprintCallable, Category="Movement")
-	bool TryAndStartMovingObject(APlayerController* InWho) noexcept;
+	bool TryAndStartMovingObject(const APlayerController* InWho) noexcept;
 
 	UFUNCTION(BlueprintCallable, Category="Movement")
-	void StopMovingObject(APlayerController* InWho) noexcept;
+	void StopMovingObject(const APlayerController* InWho) noexcept;
 
 	virtual void BeginPlay() override;
 protected:
@@ -29,7 +29,7 @@ protected:
 	bool bMoving = false;
 
 	UPROPERTY()
-	APlayerController* PlayerController;
+	const APlayerController* PlayerController;
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };

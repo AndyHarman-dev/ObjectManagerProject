@@ -16,29 +16,29 @@ class GAMESETTINGS_API UObjectManagerSettings : public UObject
 	GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintPure)
-	static UObjectManagerSettings* GetObjectManagerSettings()
+	static const UObjectManagerSettings* GetObjectManagerSettings()
 	{
-		return GetMutableDefault<UObjectManagerSettings>();
+		return GetDefault<UObjectManagerSettings>();
 	}
 
 	UFUNCTION(BlueprintCallable)
-	void SaveDefaultObjectType(const EObjectType InType) noexcept;
+	void SaveDefaultObjectType(const EObjectType InType) const noexcept;
 
 	UFUNCTION(BlueprintCallable)
-	void SaveDefaultObjectColor(const FLinearColor InColor) noexcept;
+	void SaveDefaultObjectColor(const FLinearColor InColor) const noexcept;
 
 	UFUNCTION(BlueprintCallable)
-	void SaveDefaultObjectScale(const FVector InScale) noexcept;
+	void SaveDefaultObjectScale(const FVector InScale) const noexcept;
 
 	UFUNCTION(BlueprintCallable)
-	EObjectType LoadDefaultObjectType() noexcept;
+	EObjectType LoadDefaultObjectType() const noexcept;
 
 	UFUNCTION(BlueprintCallable)
-	FLinearColor LoadDefaultObjectColor() noexcept;
+	FLinearColor LoadDefaultObjectColor() const noexcept;
 
 	UFUNCTION(BlueprintCallable)
-	FVector LoadDefaultObjectScale() noexcept;
+	FVector LoadDefaultObjectScale() const noexcept;
 
 private:
-	FCriticalSection CriticalSection;
+	mutable FCriticalSection CriticalSection;
 };

@@ -10,7 +10,7 @@ UInteractiveObjectMovementComponent::UInteractiveObjectMovementComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-bool UInteractiveObjectMovementComponent::TryAndStartMovingObject(APlayerController* InWho) noexcept
+bool UInteractiveObjectMovementComponent::TryAndStartMovingObject(const APlayerController* InWho) noexcept
 {
 	if (!IsValid(InWho))
 	{
@@ -30,7 +30,7 @@ bool UInteractiveObjectMovementComponent::TryAndStartMovingObject(APlayerControl
 	return true;
 }
 
-void UInteractiveObjectMovementComponent::StopMovingObject(APlayerController* InWho) noexcept
+void UInteractiveObjectMovementComponent::StopMovingObject(const APlayerController* InWho) noexcept
 {
 	if (InWho != PlayerController)
 	{
@@ -65,9 +65,9 @@ void UInteractiveObjectMovementComponent::TickComponent(float DeltaTime, ELevelT
 			return;
 		}
 
-		FVector CurrentLocation = GetOwner()->GetActorLocation();
-		FVector TargetLocation = HitResult.Location;
-		FVector NewLocation = FMath::VInterpTo(CurrentLocation, TargetLocation, DeltaTime, MovementInterpolationSpeed);
+		const FVector CurrentLocation = GetOwner()->GetActorLocation();
+		const FVector TargetLocation = HitResult.Location;
+		const FVector NewLocation = FMath::VInterpTo(CurrentLocation, TargetLocation, DeltaTime, MovementInterpolationSpeed);
        
 		GetOwner()->SetActorLocation(NewLocation);
 	}
