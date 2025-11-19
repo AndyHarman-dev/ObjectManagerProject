@@ -72,7 +72,7 @@ void AObjectManagementPlayerController::DeselectCurrentActor()
 	}
 
 	const auto SelectionComponent = CurrentlySelectedActor->FindComponentByClass<UInteractiveObjectSelectionComponent>();
-	if (!ensureMsgf(IsValid(SelectionComponent), TEXT("%hs: SelectionComponent is null for selectablea actor!"), __FUNCTION__))
+	if (!ensureMsgf(IsValid(SelectionComponent), TEXT("%hs: SelectionComponent is null for selectable actor!"), __FUNCTION__))
 	{
 		return;
 	}
@@ -287,6 +287,7 @@ void AObjectManagementPlayerController::Select(AActor* InActor)
 
 	const auto SelectionComponent = InActor->FindComponentByClass<UInteractiveObjectSelectionComponent>();
 	SelectionComponent->SetSelected(true);
+	
 	CurrentlySelectedActor = InActor;
 	OnObjectSelected.Broadcast(InActor);
 	
