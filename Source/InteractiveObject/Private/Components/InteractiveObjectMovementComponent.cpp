@@ -54,7 +54,6 @@ void UInteractiveObjectMovementComponent::TickComponent(float DeltaTime, ELevelT
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if (bMoving)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::White, TEXT("Moving!"));
 		FHitResult HitResult;
 		if (!PlayerController->GetHitResultUnderCursor(ECC_Visibility, false, HitResult))
 		{
