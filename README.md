@@ -16,7 +16,7 @@ An Unreal Engine project for managing interactive objects with selection, moveme
 
 The code is organized into four modules, each encapsulating distinct behaviors that can function independently rather than being embedded within a single module.
 
-## Module Hierarchy
+## Architecture Overview
 
 **ObjectManagerProjectModule** (Top-Level)
 This is the highest-level module, designed to manage objects and handle user interactions. In this solution, it is responsible for:
