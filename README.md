@@ -77,13 +77,12 @@ The Settings menu allows you to configure default values for newly spawned objec
 
 <img width="302" height="197" alt="image" src="https://github.com/user-attachments/assets/3185016f-8a33-475c-a828-5cd8147e90a6" />
 
+## Known Limitations & Future Improvements
 
+- ViewModels made in blueprints cannot call static functions, making the global access of singletons difficult.
+- To maintain the list of objects spawned in the worlds, we have to spawn them through `InteractiveObjectSpawnSubsystem`, which limits us only to the use of the subsystem.
 
-
-## Architecture
-
-```
-GameSettings <- ObjectManagerProject -> InteractiveObject
-                      ↓
-                 UIUtilities
-```
+As for improvements:
+- Instead of direct initialization of objects that can't call static functions with singletons, we could use a DI container pattern and initialize objects with the container where each could get a necessary service using an abstraction rather than a direct reference.
+- Selection and movement components could be separated into different modules because movement logic can get pretty complex, requiring more boilerplate and utility classes.
+- Player Controller ended up being an inflated object. It handles more than one responsibility. It could be separated into several composed objects for handling trace and selection logic.
