@@ -38,5 +38,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	FVector LoadDefaultObjectScale() noexcept;
-	
+
+private:
+	FCriticalSection CriticalSection;
 };
