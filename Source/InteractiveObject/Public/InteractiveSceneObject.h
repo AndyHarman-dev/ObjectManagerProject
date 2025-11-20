@@ -34,7 +34,7 @@ public:
 	UStaticMeshComponent* StaticMeshComponent;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Interactive Object")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Interactive Object")
 	EObjectType Type;
 
 protected:
