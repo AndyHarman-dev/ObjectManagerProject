@@ -16,10 +16,13 @@ An Unreal Engine project for managing interactive objects with selection, moveme
 
 ### Controls
 - Click on object once to select it, or choose it in the outliner.
-- Clikc and hold object to move it around.
+- Click and hold object to move it around.
 
 ## Architecture Overview
 The code is organized into four modules, each encapsulating distinct behaviors that can function independently rather than being embedded within a single module.
+
+**GameSettings** (Settings Layer)
+This small modules contains a UObject that provides helper funciton to save specific types of data in config files.
 
 **ObjectManagerProjectModule** (Top-Level)
 This is the highest-level module, designed to manage objects and handle user interactions. In this solution, it is responsible for:
